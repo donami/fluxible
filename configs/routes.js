@@ -1,16 +1,16 @@
 module.exports = {
-    home: {
+    login: {
         path: '/',
         method: 'get',
-        page: 'home',
-        title: 'Home',
-        handler: require('../components/Home')
+        page: 'login',
+        title: 'Log In',
+        handler: require('../components/Login')
     },
-    about: {
-        path: '/about',
-        method: 'get',
-        page: 'about',
-        title: 'About',
-        handler: require('../components/About')
+    feed: {
+      path: '/feed',
+      method: 'get',
+      page: 'feed',
+      title: 'Your feed',
+      handler: require('../components/Feed')
     }
 };

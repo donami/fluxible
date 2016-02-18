@@ -1,39 +1,31 @@
 var React = require('react');
 var NavLink = require('fluxible-router').NavLink;
+var connectToStores = require("fluxible-addons-react").connectToStores;
+var UserStore = require('../stores/UserStore');
 
 var Nav = React.createClass({
-    getDefaultProps: function() {
-        return {
-            selected: 'home',
-            links: {}
+    render() {
+        var loggedInMessage = "";
+        if (this.props && this.props.username) {
+            loggedInMessage = (<span> - Welcome <strong>{this.props.username}</strong></span>);
         }
-    },
-
-    render: function() {
-        var selected = this.props.selected;
-        var links = this.props.links;
-
-        var linkHTML = Object.keys(links).map(function(name) {
-            var className = '';
-            var link = links[name];
-
-            if (selected === name) {
-                className = 'pure-menu-selected';
-            }
-
-            return (
-                <li className={className} key={link.path}>
-                    <NavLink routeName={link.page} activeStyle={{backgroundColor: '#eee'}}>{link.title}</NavLink>
-                </li>
-            );
-        });
-
         return (
-            <ul className="pure-menu pure-menu-open pure-menu-horizontal">
-                {linkHTML}
-            </ul>
+            <p>
+                <NavLink href="/">Home</NavLink>
+                <span> - </span>
+                <NavLink href="/feed">Your Feed</NavLink>
+                {loggedInMessage}
+            </p>
         );
     }
 });
 
-module.exports = Nav;
+module.exports = connectToStores(
+    Nav,  
+    [UserStore],
+    function (context, props) {
+        return {
+            username: context.getStore(UserStore).getUsername()
+        }
+    }
+);
